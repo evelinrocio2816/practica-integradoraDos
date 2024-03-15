@@ -1,0 +1,35 @@
+<h1>Productos</h1>
+<div class="container-profile">
+    <h4>Bienvenido!!</h4>
+<p>Usuario: {{user.first_name}} {{user.last_name}}</p>
+<p>Email: {{user.email}}</p>
+<p>Edad: {{user.age}}</p>
+<button><a href="/api/session/logout">Logout</a></button>
+
+</div>
+
+
+<ul>
+    <div class="card-container" >
+  {{#each products}}
+      <div class="card">
+        <img  src={{this.image}} alt="">
+        <h3> {{this.title}} </h3>
+        <p> {{this.description}} </p>
+        <h3>u$d: {{this.price}}</h3>
+        <a href="/carts"> Agregar al carrito</a>
+    </div>
+
+  {{/each}}
+  </div>
+  </ul>
+
+ <div class="container-pages">
+{{#if hasPrevPage}}
+  <a href="/products?page={{prevPage}}"> Anterior </a>
+{{/if}}
+<h4>Pagina {{currentPage}} de {{totalPages}} </h4>
+ {{#if hasNextPage}}
+   <a href="/products?page={{nextPage}}"> Siguiente </a>
+  {{/if}}
+</div>

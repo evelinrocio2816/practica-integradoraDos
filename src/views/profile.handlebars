@@ -1,0 +1,16 @@
+
+
+<div class="container-profile">
+    <h4>Bienvenido!!</h4>
+    <p>Usuario: {{user.first_name}} {{user.last_name}}</p>
+    <p>Email: {{user.email}}</p>
+    <p>Edad: {{user.age}}</p>
+    {{#if provider}}
+        <p>Proveedor: {{provider}}</p>
+    {{/if}}
+    {{#if displayName}}
+        <p>Nombre: {{displayName}}</p>
+    {{/if}}
+    <a href="/api/session/logout"><button>Logout</button></a>
+    <a href="/logout"><button>Cerrar sesión</button></a>
+</div>
