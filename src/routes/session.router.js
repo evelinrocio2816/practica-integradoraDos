@@ -61,18 +61,27 @@ router.get(
 router.get("/auth/facebook", passport.authenticate("facebook"));
 
 //RUTA CALLBACK
-router.get("/auth/facebook/callback", passport.authenticate("facebook", {successRedirect: "/profile", failureRedirect:"/login"}));
+router.get("/auth/facebook/callback", passport.authenticate("facebook", {successRedirect: "/api/session/profile", failureRedirect:"/login"}));
 
 //RUTA PROTEGIDA DEL LOGIN
 
-router.get("/profile", (req, res) => {
-    if(req.isAuthenticated()) {
-        let {displayName, provider} = req.user;
-        res.render("profile", {displayName, provider});
-    } else {
-        res.redirect("/login");
+router.get('/profile', (req, res) => {
+    try {
+        // Verificar si el usuario está autenticado
+        if (req.isAuthenticated()) {
+            // Obtener datos del usuario de Facebook desde la sesión
+            const userFacebook = req.user;
+            res.render('profile', { userFacebook: userFacebook });
+        } else {
+            res.redirect('/login');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error interno del servidor');
     }
-})
+});
+
+
 
 //CERRAR SESSION 
 router.get("/logout", (req, res) => {

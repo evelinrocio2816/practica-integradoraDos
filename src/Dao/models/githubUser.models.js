@@ -1,15 +1,15 @@
 const mongoose= require("mongoose")
 
-const UserSchema=mongoose.Schema({
+const GithubUserSchema=mongoose.Schema({
   
     first_name:{
         type: String,
         required: true
     },
-   
+ 
     last_name: {
         type: String,
-       // required: true
+  
     },
     email: {
         type:String,
@@ -19,18 +19,13 @@ const UserSchema=mongoose.Schema({
     },
     password:{
         type: String,
-      // required: true
+  
     },
     age: {
         type: Number,
-      // required: true,
-    },
-    role: {
-        type: String,
-        enum: ['admin', 'user'],
-        default: 'user'
+     
     }
 });
 
-const UserModel = mongoose.model("user", UserSchema);
-module.exports = UserModel;
+const GithubUserModel = mongoose.model("userGithub", GithubUserSchema);
+module.exports = GithubUserModel;

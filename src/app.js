@@ -65,8 +65,8 @@ store: MongoStore.create({
 // Passport
 
 initializePassport();
-passport.use(passport.initialize());
-passport.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 ///////////////////////////////////////////////////////////////////////////ROUTES//////////////////////////////////////////////////////
 app.use("/api/products", productsRouter)

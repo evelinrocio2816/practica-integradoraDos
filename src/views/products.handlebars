@@ -1,13 +1,18 @@
-<h1>Productos</h1>
+<h1>E-commerce</h1>
 <div class="container-profile">
     <h4>Bienvenido!!</h4>
-<p>Usuario: {{user.first_name}} {{user.last_name}}</p>
-<p>Email: {{user.email}}</p>
-<p>Edad: {{user.age}}</p>
-<button><a href="/api/session/logout">Logout</a></button>
-
+    {{#if userFacebook.provider}}
+        <!-- Si el usuario se ha autenticado con Facebook -->
+        <p>Proveedor: {{userFacebook.provider}}</p>
+        <p>Nombre: {{userFacebook.displayName}}</p>
+    {{else}}
+        <!-- Si el usuario se ha autenticado de forma normal -->
+        <p>Usuario: {{user.first_name}} {{user.last_name}}</p>
+        <p>Email: {{user.email}}</p>
+        <p>Edad: {{user.age}}</p>
+    {{/if}}
+    <a href="/api/session/logout"><button>Logout</button></a>
 </div>
-
 
 <ul>
     <div class="card-container" >

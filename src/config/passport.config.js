@@ -1,7 +1,8 @@
 const passport = require("passport");
 const local = require("passport-local");
 
-
+const GithubUserModel = require("../Dao/models/githubUser.models")
+const UserModelfacebook = require("../Dao/models/facebookUser.models")
 const UserModel = require("../Dao/models/user.models");
 const { createHash, isValidPassword } = require("../utils/hashBcrypt");
 //GitHub
@@ -70,15 +71,6 @@ const initializePassport = () => {
     )
   );
 
-  passport.serializeUser((user, done) => {
-    done(null, user._id);
-  });
-
-  passport.deserializeUser(async (id, done) => {
-    let user = await UserModel.findById({ _id: id });
-    done(null, user);
-  });
-
   /* PASSPORT CON GITHUB */
 
   passport.use(
@@ -92,7 +84,7 @@ const initializePassport = () => {
       async (accessToken, refreshToken, profile, done) => {
         console.log("profile:", profile);
         try {
-          let user = await UserModel.findOne({ email: profile._json.email });
+          let user = await GithubUserModel.findOne({ email: profile._json.email });
           if (!user) {
             let newUser = {
               first_name: profile._json.name,
@@ -101,7 +93,7 @@ const initializePassport = () => {
               email: profile._json.email,
               password: ""
             }
-            let result = await UserModel.create(newUser);
+            let result = await GithubUserModel.create(newUser);
             done(null, result);
           } else {
             done(null, user);
@@ -117,16 +109,16 @@ const initializePassport = () => {
   passport.use(new FacebookStrategy({
     clientID:  639889558266038,
     clientSecret: "5b8a79ec027964a48240ecbdc85f0af5",
-    callbackURL: "http://localhost:8080/auth/facebook/callback"
+    callbackURL: "http://localhost:8080/api/session/auth/facebook/callback"
 }, async (accessToken, refreshToken, profile, done) => {
-    const user = await UserModel.findOne({
+    const user = await UserModelfacebook.findOne({
         accountId: profile.id,
         provider: "Facebook"
     });
 
     if (!user) {
         console.log("Agregando un usuario");
-        const newUser = new UserModel({
+        const newUser = new UserModelfacebook({
             first_name: profile.displayName,
             accountId: profile.id,
             provider: "Facebook"
